@@ -28,20 +28,13 @@ namespace SchoolManagementSystem
 
         private void AddTeachersForm_Load(object sender, EventArgs e)
         {
-
             try
             {
-
                 string connectionString = ConfigurationManager.ConnectionStrings["MyDatabase"].ConnectionString;
-
-
                 connection = new MySqlConnection(connectionString);
-
-
                 connection.Open();
 
-
-
+                teacherDisplayData(); 
             }
             catch (Exception ex)
             {
@@ -49,12 +42,8 @@ namespace SchoolManagementSystem
             }
         }
 
-        public void teacherDisplayData()
-        {
-            AddTeachersData addTD = new AddTeachersData();
 
-            teacher_gridData.DataSource = addTD.teacherData();
-        }
+
 
 
 
@@ -133,6 +122,24 @@ namespace SchoolManagementSystem
 
         }
 
+        public void teacherDisplayData()
+        {
+            try
+            {
+                string query = "SELECT * FROM teachers";
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+
+                teacher_gridData.DataSource = table;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading teacher data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
         public void clearFields()
         {
             teacher_id.Text = "";
@@ -167,79 +174,7 @@ namespace SchoolManagementSystem
         private void tteacher_updateBtn_Click(object sender, EventArgs e)
         {
 
-            if (teacher_id.Text == ""
-                || teacher_name.Text == ""
-                || teacher_gender.Text == ""
-                || teacher_address.Text == ""
-                || teacher_status.Text == ""
-                || teacher_image.Image == null
-                || imagePath == null)
-
-            {
-                MessageBox.Show("Please select item first", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            //else
-            //{
-            //    if(connect.State != ConnectionState.Open)
-            //    {
-            //        try
-            //        {
-            //            connect.Open();
-
-            //            DialogResult check = MessageBox.Show("Are you want to update Teacher ID: "
-            //                + teacher_id.Text.Trim() + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            //            if(check == DialogResult.Yes)
-            //            {
-            //                DateTime today = DateTime.Today;
-
-            //                String updateData = "UPDATE teachers SET " +
-            //                    "teacher_name = @teacherName, teacher_gender = @teacherGender" +
-            //                    ", teacher_address = @teacherAddress" +
-            //                    ", teacher_status = @teacherStatus" +
-            //                    ",date_update = @dateUpdate WHERE teacher_id = @teacherID";
-
-                      
-
-            //                using (SqlCommand cmd = new SqlCommand(updateData, connect))
-            //                {
-            //                    cmd.Parameters.AddWithValue("@teacherName", teacher_name.Text.Trim());
-            //                    cmd.Parameters.AddWithValue("@teacherGender", teacher_gender.Text.Trim());
-            //                    cmd.Parameters.AddWithValue("@teacherAddress", teacher_address.Text.Trim());
-            //                    cmd.Parameters.AddWithValue("@teacherStatus", teacher_status.Text.Trim());
-            //                    cmd.Parameters.AddWithValue("@dateUpdate", today.ToString());
-            //                    cmd.Parameters.AddWithValue("@teacherID", teacher_id.Text.Trim());
-
-
-            //                    cmd.ExecuteNonQuery();
-
-            //                    teacherDisplayData();
-
-
-            //                    MessageBox.Show("Updated Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            //                    clearFields();
-            //                }
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show("Cancelled", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //                clearFields();
-            //            }
-
-            //        }
-            //        catch(Exception ex)
-            //        {
-            //            MessageBox.Show("Error connecting database: " + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            //        }
-            //        finally
-            //        {
-            //            connect.Close();
-
-            //        }
-            //    }
-            //}
+            
             }
 
         private void teacher_gridData_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -247,100 +182,12 @@ namespace SchoolManagementSystem
 
 
 
-            if(e.RowIndex != -1)
-            {
-                DataGridViewRow row = teacher_gridData.Rows[e.RowIndex];
-                teacher_id.Text = row.Cells[1].Value.ToString();
-                teacher_name.Text = row.Cells[2].Value.ToString();
-                teacher_gender.Text = row.Cells[3].Value.ToString();
-                teacher_address.Text = row.Cells[4].Value.ToString();
-
-                imagePath = row.Cells[5].Value.ToString();
-
-                string imageData = row.Cells[5].Value.ToString();
-
-                if(imageData != null && imageData.Length > 0)
-                {
-                    
-                        teacher_image.Image = Image.FromFile(imageData);
-
-                    
-                }
-                else
-                {
-                    teacher_image.Image = null;
-                }
-
-                teacher_status.Text = row.Cells[6].Value.ToString();
-                
-
-
-
-
-            }
+           
         }
 
         private void teacher_deleteBtn_Click(object sender, EventArgs e)
         {
-            if(teacher_id.Text == "")
-            {
-                MessageBox.Show("Please select item first", "Error Message"
-                    , MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }
-            else
-            {
-            //    if(connect.State != ConnectionState.Open)
-            //    {
-            //        DialogResult check = MessageBox.Show("Are you want to Delete Teacher ID: "
-            //            + teacher_id.Text + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            //        if(check == DialogResult.Yes)
-            //        {
-            //            try
-            //            {
-            //                connect.Open();
-            //                DateTime today = DateTime.Today;
-
-
-            //                string deleteData = "UPDATE teachers SET date_delete = @dateDelete" +
-            //                    " WHERE teacher_id = @teacherID";
-
-            //                using (SqlCommand cmd = new SqlCommand(deleteData, connect))
-            //                {
-            //                    cmd.Parameters.AddWithValue("@dateDelete", today.ToString());
-            //                    cmd.Parameters.AddWithValue("@teacherID", teacher_id.Text.Trim());
-
-            //                    cmd.ExecuteNonQuery();
-
-            //                    teacherDisplayData();
-
-
-            //                    MessageBox.Show("Deleted Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            //                    clearFields();
-
-            //                }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                MessageBox.Show("Error connecting Database: " + ex, "Error Message"
-            //          , MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //            }
-            //            finally
-            //            {
-            //                connect.Close();
-            //            }
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("Cancelled", "Information Message"
-            //        , MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        }
-
-                    
-            //    }
-            }
+           
         }
 
         private void teacher_gridData_CellContentClick(object sender, DataGridViewCellEventArgs e)
