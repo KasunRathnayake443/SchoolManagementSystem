@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel2 = new System.Windows.Forms.Panel();
             this.teacher_status = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -48,13 +47,13 @@
             this.teacher_id = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.teacher_gridData = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
+            this.teacherDataGrid = new System.Windows.Forms.DataGridView();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.teacher_image)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.teacher_gridData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.teacherDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -279,40 +278,12 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.teacher_gridData);
+            this.panel1.Controls.Add(this.teacherDataGrid);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(33, 38);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(822, 282);
             this.panel1.TabIndex = 4;
-            // 
-            // teacher_gridData
-            // 
-            this.teacher_gridData.AllowUserToAddRows = false;
-            this.teacher_gridData.AllowUserToDeleteRows = false;
-            this.teacher_gridData.AllowUserToResizeRows = false;
-            this.teacher_gridData.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.teacher_gridData.CausesValidation = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(87)))), ((int)(((byte)(122)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.teacher_gridData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.teacher_gridData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.teacher_gridData.EnableHeadersVisualStyles = false;
-            this.teacher_gridData.Location = new System.Drawing.Point(26, 59);
-            this.teacher_gridData.Name = "teacher_gridData";
-            this.teacher_gridData.ReadOnly = true;
-            this.teacher_gridData.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.teacher_gridData.RowHeadersVisible = false;
-            this.teacher_gridData.Size = new System.Drawing.Size(768, 202);
-            this.teacher_gridData.TabIndex = 1;
-            this.teacher_gridData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.teacher_gridData_CellClick);
-            this.teacher_gridData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.teacher_gridData_CellContentClick);
             // 
             // label1
             // 
@@ -323,6 +294,14 @@
             this.label1.Size = new System.Drawing.Size(112, 19);
             this.label1.TabIndex = 0;
             this.label1.Text = "Teacher\'s Data";
+            // 
+            // teacherDataGrid
+            // 
+            this.teacherDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.teacherDataGrid.Location = new System.Drawing.Point(12, 43);
+            this.teacherDataGrid.Name = "teacherDataGrid";
+            this.teacherDataGrid.Size = new System.Drawing.Size(795, 227);
+            this.teacherDataGrid.TabIndex = 1;
             // 
             // AddTeachersForm
             // 
@@ -339,7 +318,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.teacher_image)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.teacher_gridData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.teacherDataGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -362,10 +341,10 @@
         private System.Windows.Forms.TextBox teacher_id;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView teacher_gridData;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox teacher_status;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox teacher_image;
+        private System.Windows.Forms.DataGridView teacherDataGrid;
     }
 }

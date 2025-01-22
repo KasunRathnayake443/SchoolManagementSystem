@@ -19,14 +19,15 @@ namespace SchoolManagementSystem
     {
         private MySqlConnection connection;
 
+
         public AddTeachersForm()
         {
             InitializeComponent();
 
-            teacherDisplayData();
+         
         }
 
-        private void AddTeachersForm_Load(object sender, EventArgs e)
+        public void AddTeachersForm_Load(object sender, EventArgs e)
         {
             try
             {
@@ -34,7 +35,7 @@ namespace SchoolManagementSystem
                 connection = new MySqlConnection(connectionString);
                 connection.Open();
 
-                teacherDisplayData(); 
+                teacherDisplayData();
             }
             catch (Exception ex)
             {
@@ -44,6 +45,86 @@ namespace SchoolManagementSystem
 
 
 
+
+        private void teacherDisplayData()
+        {
+            try
+            {
+                
+                string query = @"
+        SELECT 
+            id, 
+            teacher_id, 
+            teacher_name, 
+            teacher_gender, 
+            teacher_address,  
+            teacher_status, 
+            IFNULL(date_insert, '') AS date_insert
+           
+        FROM teachers
+        WHERE date_delete IS NULL;
+        ";
+
+                
+                DataTable teacherTable = new DataTable();
+
+              
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(teacherTable);
+                    }
+                }
+
+               
+                teacherDataGrid.DataSource = teacherTable;
+
+              
+                teacherDataGrid.Columns["id"].HeaderText = "ID";
+                teacherDataGrid.Columns["teacher_id"].HeaderText = "Teacher ID";
+                teacherDataGrid.Columns["teacher_name"].HeaderText = "Name";
+                teacherDataGrid.Columns["teacher_gender"].HeaderText = "Gender";
+                teacherDataGrid.Columns["teacher_address"].HeaderText = "Address";
+                teacherDataGrid.Columns["teacher_status"].HeaderText = "Status";
+                teacherDataGrid.Columns["date_insert"].HeaderText = "Inserted On";
+                
+
+               
+                CustomizeDataGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching teacher data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CustomizeDataGridView()
+        {
+           
+            teacherDataGrid.EnableHeadersVisualStyles = false;
+            teacherDataGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(4, 87, 122);
+            teacherDataGrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            teacherDataGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            teacherDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+           
+            teacherDataGrid.DefaultCellStyle.BackColor = Color.White;
+            teacherDataGrid.DefaultCellStyle.ForeColor = Color.Black;
+            teacherDataGrid.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            teacherDataGrid.DefaultCellStyle.SelectionBackColor = Color.LightGray;
+            teacherDataGrid.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+         
+            teacherDataGrid.GridColor = Color.Gray;
+            teacherDataGrid.BorderStyle = BorderStyle.None;
+
+            teacherDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            teacherDataGrid.RowHeadersVisible = false;
+            teacherDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            teacherDataGrid.AllowUserToAddRows = false;
+        }
 
 
 
@@ -122,22 +203,11 @@ namespace SchoolManagementSystem
 
         }
 
-        public void teacherDisplayData()
-        {
-            try
-            {
-                string query = "SELECT * FROM teachers";
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                DataTable table = new DataTable();
-                adapter.Fill(table);
+       
 
-                teacher_gridData.DataSource = table;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading teacher data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+
+
+
 
 
         public void clearFields()
