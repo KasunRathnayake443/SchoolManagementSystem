@@ -28,55 +28,7 @@ namespace SchoolManagementSystem
 
         public string DateInsert { set; get; }
 
-        public List<AddTeachersData> teacherData()
-        {
-            List<AddTeachersData> listData = new List<AddTeachersData>();
-            if (connect.State != ConnectionState.Open)
-            {
-                try
-                {
-                    connect.Open();
-
-                    string sql = "SELECT * FROM teachers WHERE date_delete IS NULL";
-
-                    using(SqlCommand cmd = new SqlCommand(sql, connect))
-                    {
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        while (reader.Read())
-                        {
-                            AddTeachersData addTD = new AddTeachersData();
-
-                            addTD.ID = (int)reader["id"];
-                            addTD.TeacherID = reader["teacher_id"].ToString();
-                            addTD.TeacherName = reader["teacher_name"].ToString();
-                            addTD.TeacherGender = reader["teacher_gender"].ToString();
-                            addTD.TeacherAddress = reader["teacher_address"].ToString();
-                            addTD.TeacherImage = reader["teacher_image"].ToString();
-                            addTD.Status = reader["teacher_status"].ToString();
-                            addTD.DateInsert = reader["date_insert"].ToString();
-
-                            listData.Add(addTD);
-                        }
-                        reader.Close();
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine("Error connecting Database: " + ex);
-                }
-                finally
-                {
-                    connect.Close();
-
-                }
-
-            }
-            return listData;
-           
-          
-        }
+       
 
 
     }

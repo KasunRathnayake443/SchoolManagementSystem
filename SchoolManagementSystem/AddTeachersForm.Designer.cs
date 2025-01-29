@@ -47,8 +47,8 @@
             this.teacher_id = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.teacherDataGrid = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.teacher_image)).BeginInit();
@@ -285,6 +285,15 @@
             this.panel1.Size = new System.Drawing.Size(822, 282);
             this.panel1.TabIndex = 4;
             // 
+            // teacherDataGrid
+            // 
+            this.teacherDataGrid.AllowUserToResizeRows = false;
+            this.teacherDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.teacherDataGrid.Location = new System.Drawing.Point(12, 43);
+            this.teacherDataGrid.Name = "teacherDataGrid";
+            this.teacherDataGrid.Size = new System.Drawing.Size(795, 227);
+            this.teacherDataGrid.TabIndex = 1;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -294,14 +303,6 @@
             this.label1.Size = new System.Drawing.Size(112, 19);
             this.label1.TabIndex = 0;
             this.label1.Text = "Teacher\'s Data";
-            // 
-            // teacherDataGrid
-            // 
-            this.teacherDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.teacherDataGrid.Location = new System.Drawing.Point(12, 43);
-            this.teacherDataGrid.Name = "teacherDataGrid";
-            this.teacherDataGrid.Size = new System.Drawing.Size(795, 227);
-            this.teacherDataGrid.TabIndex = 1;
             // 
             // AddTeachersForm
             // 

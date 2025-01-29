@@ -137,8 +137,7 @@ namespace SchoolManagementSystem
                 || teacher_gender.Text == ""
                 || teacher_address.Text == ""
                 || teacher_status.Text == ""
-                || teacher_image.Image == null
-                || imagePath == null)
+                )
 
             {
                 MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -257,7 +256,39 @@ namespace SchoolManagementSystem
 
         private void teacher_deleteBtn_Click(object sender, EventArgs e)
         {
-           
+            if (teacherDataGrid.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a teacher to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            
+            string selectedTeacherId = teacherDataGrid.SelectedRows[0].Cells["teacher_id"].Value.ToString();
+
+         
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this teacher?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                try
+                {
+                    string deleteQuery = "DELETE FROM teachers WHERE teacher_id = @teacherId";
+
+                    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@teacherId", selectedTeacherId);
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Teacher deleted successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    
+                        teacherDisplayData();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting teacher: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void teacher_gridData_CellContentClick(object sender, DataGridViewCellEventArgs e)

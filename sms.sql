@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2024 at 06:10 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jan 29, 2025 at 08:51 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,6 +41,14 @@ CREATE TABLE `students` (
   `date_update` date DEFAULT NULL,
   `date_delete` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `student_id`, `student_name`, `student_gender`, `student_address`, `student_grade`, `student_section`, `student_image`, `student_status`, `date_insert`, `date_update`, `date_delete`) VALUES
+(2, 'S002', 'Test 2', 'Male', 'Test 2', 'Grade 2', 'E', NULL, 'Pending', '2025-01-29', NULL, NULL),
+(3, 'S003', 'Test 3', 'Female', 'Test 3', 'Grade 4', 'B', NULL, 'Entrolled', '2025-01-29', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -119,13 +127,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`

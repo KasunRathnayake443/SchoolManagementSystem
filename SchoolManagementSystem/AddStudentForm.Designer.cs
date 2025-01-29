@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel2 = new System.Windows.Forms.Panel();
             this.student_status = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -52,13 +52,13 @@
             this.student_id = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.student_studentData = new System.Windows.Forms.DataGridView();
+            this.studentGri = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.student_image)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.student_studentData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.studentGri)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -341,36 +341,38 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.student_studentData);
+            this.panel1.Controls.Add(this.studentGri);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(33, 38);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(822, 282);
             this.panel1.TabIndex = 2;
             // 
-            // student_studentData
+            // studentGri
             // 
-            this.student_studentData.AllowUserToAddRows = false;
-            this.student_studentData.AllowUserToDeleteRows = false;
-            this.student_studentData.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(87)))), ((int)(((byte)(122)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.student_studentData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.student_studentData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.student_studentData.EnableHeadersVisualStyles = false;
-            this.student_studentData.Location = new System.Drawing.Point(26, 59);
-            this.student_studentData.Name = "student_studentData";
-            this.student_studentData.ReadOnly = true;
-            this.student_studentData.RowHeadersVisible = false;
-            this.student_studentData.Size = new System.Drawing.Size(768, 202);
-            this.student_studentData.TabIndex = 1;
-            this.student_studentData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.student_studentData_CellClick);
+            this.studentGri.AllowUserToAddRows = false;
+            this.studentGri.AllowUserToDeleteRows = false;
+            this.studentGri.AllowUserToResizeColumns = false;
+            this.studentGri.AllowUserToResizeRows = false;
+            this.studentGri.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(87)))), ((int)(((byte)(122)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.studentGri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.studentGri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.studentGri.EnableHeadersVisualStyles = false;
+            this.studentGri.Location = new System.Drawing.Point(3, 43);
+            this.studentGri.Name = "studentGri";
+            this.studentGri.ReadOnly = true;
+            this.studentGri.RowHeadersVisible = false;
+            this.studentGri.Size = new System.Drawing.Size(816, 236);
+            this.studentGri.TabIndex = 1;
+            this.studentGri.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.student_studentData_CellClick);
             // 
             // label1
             // 
@@ -390,13 +392,14 @@
             this.Controls.Add(this.panel1);
             this.Name = "AddStudentForm";
             this.Size = new System.Drawing.Size(889, 612);
+            this.Load += new System.EventHandler(this.AddStudentForm_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.student_image)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.student_studentData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.studentGri)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -423,7 +426,7 @@
         private System.Windows.Forms.TextBox student_id;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView student_studentData;
+        private System.Windows.Forms.DataGridView studentGri;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox student_image;
         private System.Windows.Forms.ComboBox student_status;

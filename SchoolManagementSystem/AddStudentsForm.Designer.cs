@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.studentGrisss = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button5 = new System.Windows.Forms.Button();
@@ -51,24 +52,33 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.studentGridView = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.studentGrisss)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.student_image)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.studentGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.studentGridView);
+            this.panel1.Controls.Add(this.studentGrisss);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(27, 25);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(822, 282);
             this.panel1.TabIndex = 0;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // studentGrisss
+            // 
+            this.studentGrisss.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.studentGrisss.Location = new System.Drawing.Point(17, 43);
+            this.studentGrisss.Name = "studentGrisss";
+            this.studentGrisss.Size = new System.Drawing.Size(787, 222);
+            this.studentGrisss.TabIndex = 1;
+            this.studentGrisss.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.studentGridView_CellContentClick);
             // 
             // label1
             // 
@@ -328,14 +338,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Student ID:";
             // 
-            // studentGridView
-            // 
-            this.studentGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.studentGridView.Location = new System.Drawing.Point(17, 43);
-            this.studentGridView.Name = "studentGridView";
-            this.studentGridView.Size = new System.Drawing.Size(787, 222);
-            this.studentGridView.TabIndex = 1;
-            // 
             // AddStudentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,12 +351,12 @@
             this.Load += new System.EventHandler(this.AddStudentsForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.studentGrisss)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.student_image)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.studentGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -384,6 +386,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox student_image;
-        private System.Windows.Forms.DataGridView studentGridView;
+        private System.Windows.Forms.DataGridView studentGrisss;
     }
 }

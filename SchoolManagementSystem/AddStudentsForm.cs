@@ -40,67 +40,60 @@ namespace SchoolManagementSystem
                 connection = new MySqlConnection(connectionString);
                 connection.Open();
 
-                DisplayStudentData();
+                studentDisplayData();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error connecting to the database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-
-
         }
 
 
-        private void DisplayStudentData()
+        private void studentDisplayData()
         {
             try
             {
-                
+                // Query to fetch all student records where date_delete is null
                 string query = @"
-        SELECT 
-            id, 
-            student_id, 
-            student_name, 
-            student_gender, 
-            student_address,  
-            student_grade, 
-            student_section, 
-            student_status, 
-            IFNULL(date_insert, '') AS date_insert 
-        FROM students
-        WHERE date_delete IS NULL;
+            SELECT 
+                id, 
+                student_id, 
+                student_name, 
+                student_gender, 
+                student_address, 
+                student_grade, 
+                student_section, 
+                student_status, 
+                IFNULL(date_insert, '') AS date_insert
+            FROM students
+            WHERE date_delete IS NULL;
         ";
 
-                // DataTable to hold student data
                 DataTable studentTable = new DataTable();
 
-                // Create MySqlCommand with an open connection
                 using (MySqlCommand cmd = new MySqlCommand(query, connection))
                 {
-                    // Use MySqlDataAdapter to fill DataTable
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                     {
                         adapter.Fill(studentTable);
                     }
                 }
 
-                // Bind DataTable to DataGridView
-                studentGridView.DataSource = studentTable;
+                // Bind data to the DataGridView
+                studentGrisss.DataSource = studentTable;
 
-                // Customize column headers
-                studentGridView.Columns["id"].HeaderText = "ID";
-                studentGridView.Columns["student_id"].HeaderText = "Student ID";
-                studentGridView.Columns["student_name"].HeaderText = "Name";
-                studentGridView.Columns["student_gender"].HeaderText = "Gender";
-                studentGridView.Columns["student_address"].HeaderText = "Address";
-                studentGridView.Columns["student_grade"].HeaderText = "Grade";
-                studentGridView.Columns["student_section"].HeaderText = "Section";
-                studentGridView.Columns["student_status"].HeaderText = "Status";
-                studentGridView.Columns["date_insert"].HeaderText = "Inserted On";
+                // Set custom headers
+                studentGrisss.Columns["id"].HeaderText = "ID";
+                studentGrisss.Columns["student_id"].HeaderText = "Student ID";
+                studentGrisss.Columns["student_name"].HeaderText = "Name";
+                studentGrisss.Columns["student_gender"].HeaderText = "Gender";
+                studentGrisss.Columns["student_address"].HeaderText = "Address";
+                studentGrisss.Columns["student_grade"].HeaderText = "Grade";
+                studentGrisss.Columns["student_section"].HeaderText = "Section";
+                studentGrisss.Columns["student_status"].HeaderText = "Status";
+                studentGrisss.Columns["date_insert"].HeaderText = "Inserted On";
 
-                // Apply styling
+                // Apply grid customization
                 CustomizeStudentGridView();
             }
             catch (Exception ex)
@@ -111,30 +104,36 @@ namespace SchoolManagementSystem
 
         private void CustomizeStudentGridView()
         {
-            // Header style
-            studentGridView.EnableHeadersVisualStyles = false;
-            studentGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(4, 87, 122);
-            studentGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            studentGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            studentGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            studentGrisss.EnableHeadersVisualStyles = false;
+            studentGrisss.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(4, 87, 122);
+            studentGrisss.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            studentGrisss.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            studentGrisss.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            // Rows style
-            studentGridView.DefaultCellStyle.BackColor = Color.White;
-            studentGridView.DefaultCellStyle.ForeColor = Color.Black;
-            studentGridView.DefaultCellStyle.Font = new Font("Segoe UI", 10);
-            studentGridView.DefaultCellStyle.SelectionBackColor = Color.LightGray;
-            studentGridView.DefaultCellStyle.SelectionForeColor = Color.Black;
+            studentGrisss.DefaultCellStyle.BackColor = Color.White;
+            studentGrisss.DefaultCellStyle.ForeColor = Color.Black;
+            studentGrisss.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            studentGrisss.DefaultCellStyle.SelectionBackColor = Color.LightGray;
+            studentGrisss.DefaultCellStyle.SelectionForeColor = Color.Black;
 
-            // Grid style
-            studentGridView.GridColor = Color.Gray;
-            studentGridView.BorderStyle = BorderStyle.None;
+            studentGrisss.GridColor = Color.Gray;
+            studentGrisss.BorderStyle = BorderStyle.None;
 
-            // Other settings
-            studentGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            studentGridView.RowHeadersVisible = false;
-            studentGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            studentGridView.AllowUserToAddRows = false;
+            studentGrisss.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            studentGrisss.RowHeadersVisible = false;
+            studentGrisss.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            studentGrisss.AllowUserToAddRows = false;
         }
 
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void studentGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

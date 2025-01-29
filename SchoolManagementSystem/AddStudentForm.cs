@@ -4,13 +4,15 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Drawing;
+using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace SchoolManagementSystem
 {
     public partial class AddStudentForm : UserControl
     {
+        private MySqlConnection connection;
 
-        SqlConnection connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\sac\Documents\school.mdf;Integrated Security=True;Connect Timeout=30");
         public AddStudentForm()
         {
             InitializeComponent();
@@ -20,9 +22,7 @@ namespace SchoolManagementSystem
 
         public void displayStudentData()
         {
-            AddStudentData adData = new AddStudentData();
-
-            student_studentData.DataSource = adData.studentData();
+            
         }
 
       
@@ -30,103 +30,81 @@ namespace SchoolManagementSystem
         private void button2_Click(object sender, EventArgs e)
         {
 
-            if (student_id.Text == ""
-              || student_name.Text == ""
-              || student_gender.Text == ""
-              || student_address.Text == ""
-              || student_grade.Text == ""
-              || student_section.Text == ""
-              || student_status.Text == ""
-              || student_image.Image == null
-              || imagePath == null)
-
+            if (string.IsNullOrWhiteSpace(student_id.Text) ||
+       string.IsNullOrWhiteSpace(student_name.Text) ||
+       student_gender.SelectedIndex == -1 ||
+       string.IsNullOrWhiteSpace(student_address.Text) ||
+       student_grade.SelectedIndex == -1 ||
+       student_section.SelectedIndex == -1 ||
+       student_status.SelectedIndex == -1)
             {
-                MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please fill all fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
+
+            string studentID = student_id.Text.Trim();
+            string studentName = student_name.Text.Trim();
+            string studentGender = student_gender.SelectedItem.ToString();
+            string studentAddress = student_address.Text.Trim();
+            string studentGrade = student_grade.SelectedItem.ToString();
+            string studentSection = student_section.SelectedItem.ToString();
+            string studentStatus = student_status.SelectedItem.ToString();
+
+            try
             {
-                if (connect.State != ConnectionState.Open)
+               
+                string checkQuery = "SELECT student_id FROM students WHERE student_id = @studentID";
+
+                using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, connection))
                 {
-                    try
+                    checkCmd.Parameters.AddWithValue("@studentID", studentID);
+
+                    using (MySqlDataReader reader = checkCmd.ExecuteReader())
                     {
-                        connect.Open();
-
-                        //CHECK STUDENT ID
-
-                        string checkStudentID = "SELECT COUNT(*) FROM students WHERE student_id = @studentID";
-
-                        using (SqlCommand checkSID = new SqlCommand(checkStudentID, connect))
+                        if (reader.HasRows)
                         {
-                            checkSID.Parameters.AddWithValue("@studentID", student_id.Text.Trim());
-                            int count = (int)checkSID.ExecuteScalar();
-
-                            if (count >= 1)
-                            {
-                                MessageBox.Show("Student ID: " + student_id.Text.Trim() + "is already exist"
-                                    , "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                            }
-                            else
-                            {
-                                DateTime today = DateTime.Today;
-                                string insertData = "INSERT INTO students (student_id, student_name " +
-                                    ", student_gender, student_address, student_grade, student_section " +
-                                    ", student_image, student_status, date_insert) " +
-                                    "VALUES(@studentID, @studentName, @studentGender, @studentAddress" +
-                                    ", @studentGrade, @studentSection, @studentImage, @studentStatus" +
-                                    ", @dateInsert)";
-
-
-
-                                string path = Path.Combine(@"C:\Users\sac\source\repos\SchoolManagementSystem\SchoolManagementSystem\Student_Directory\", student_id.Text.Trim() + ".jpg");
-
-                                string directoryPath = Path.GetDirectoryName(path);
-
-                                if (!Directory.Exists(directoryPath))
-                                {
-                                    Directory.CreateDirectory(directoryPath);
-                                }
-                                File.Copy(imagePath, path, true);
-
-
-                                using (SqlCommand cmd = new SqlCommand(insertData, connect))
-                                {
-                                    cmd.Parameters.AddWithValue("@studentID", student_id.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@studentName", student_name.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@studentGender", student_gender.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@studentAddress", student_address.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@studentGrade", student_grade.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@studentSection", student_section.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@studentImage", path);
-                                    cmd.Parameters.AddWithValue("@studentStatus", student_status.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@dateInsert", today.ToString());
-
-                                    cmd.ExecuteNonQuery();
-
-                                    displayStudentData();
-
-
-                                    MessageBox.Show("Added Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                    clearFields();
-                                }
-                            }
+                            MessageBox.Show("Student ID already exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            reader.Close();
+                            return;
                         }
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error connecting database: " + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
-                    }
-                    finally
-                    {
-                        connect.Close();
+                        reader.Close();
                     }
                 }
+
+            
+                string insertQuery = @"
+            INSERT INTO students
+            (student_id, student_name, student_gender, student_address, student_grade, student_section, student_status, date_insert)
+            VALUES 
+            (@studentID, @studentName, @studentGender, @studentAddress, @studentGrade, @studentSection, @studentStatus, @insertDate)
+        ";
+
+                using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
+                {
+                    insertCmd.Parameters.AddWithValue("@studentID", studentID);
+                    insertCmd.Parameters.AddWithValue("@studentName", studentName);
+                    insertCmd.Parameters.AddWithValue("@studentGender", studentGender);
+                    insertCmd.Parameters.AddWithValue("@studentAddress", studentAddress);
+                    insertCmd.Parameters.AddWithValue("@studentGrade", studentGrade);
+                    insertCmd.Parameters.AddWithValue("@studentSection", studentSection);
+                    insertCmd.Parameters.AddWithValue("@studentStatus", studentStatus);
+                    insertCmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
+
+                    insertCmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                 
+                    studentDisplayData();
+                    clearFields();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding student: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
 
 
@@ -139,8 +117,7 @@ namespace SchoolManagementSystem
             student_grade.SelectedIndex = -1;
             student_section.SelectedIndex = -1;
             student_status.SelectedIndex = -1;
-            student_image.Image = null;
-            imagePath = "";
+            
         }
 
         public string imagePath;
@@ -165,187 +142,152 @@ namespace SchoolManagementSystem
 
         private void student_updateBtn_Click(object sender, EventArgs e)
         {
-            if (student_id.Text == ""
-              || student_name.Text == ""
-              || student_gender.Text == ""
-              || student_address.Text == ""
-              || student_grade.Text == ""
-              || student_section.Text == ""
-              || student_status.Text == ""
-              || student_image.Image == null
-              || imagePath == null)
-
-            {
-                MessageBox.Show("Please select item first", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                if (connect.State != ConnectionState.Open)
-                {
-                    try
-                    {
-                        connect.Open();
-
-                        DialogResult check = MessageBox.Show("Are you want to update Student ID: "
-                            + student_id.Text.Trim() + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                        if (check == DialogResult.Yes)
-                        {
-                            DateTime today = DateTime.Today;
-
-                            String updateData = "UPDATE students SET student_name = @studentName, " +
-                                 "student_gender = @studentGender, student_address = @studentAddress, " +
-                                 "student_grade = @studentGrade, student_section = @studentSection, " +
-                                 "student_status = @studentStatus, date_update = @dateUpdate " +
-                                 "WHERE student_id = @studentID";
-
-
-
-
-                            using (SqlCommand cmd = new SqlCommand(updateData, connect))
-                            {
-                                cmd.Parameters.AddWithValue("@studentName", student_name.Text.Trim());
-                                cmd.Parameters.AddWithValue("@studentGender", student_gender.Text.Trim());
-                                cmd.Parameters.AddWithValue("@studentAddress", student_address.Text.Trim());
-                                cmd.Parameters.AddWithValue("@studentGrade", student_grade.Text.Trim());
-                                cmd.Parameters.AddWithValue("@studentSection", student_section.Text.Trim());
-                                cmd.Parameters.AddWithValue("@studentStatus", student_status.Text.Trim());
-                                cmd.Parameters.AddWithValue("@dateUpdate", today.ToString());
-                                cmd.Parameters.AddWithValue("@studentID", student_id.Text.Trim());
-
-
-                                cmd.ExecuteNonQuery();
-
-                                displayStudentData();
-
-
-                                MessageBox.Show("Updated Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                clearFields();
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Cancelled", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            clearFields();
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error connecting database: " + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    }
-                    finally
-                    {
-                        connect.Close();
-
-                    }
-                }
-            }
+           
+                
+            
         }
 
         private void student_studentData_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex != -1)
-            {
-                DataGridViewRow row = student_studentData.Rows[e.RowIndex];
-                student_id.Text = row.Cells[1].Value.ToString();
-                student_name.Text = row.Cells[2].Value.ToString();
-                student_gender.Text = row.Cells[3].Value.ToString();
-                student_address.Text = row.Cells[4].Value.ToString();
-                student_grade.Text = row.Cells[5].Value.ToString();
-                student_section.Text = row.Cells[6].Value.ToString();
-                
-
-                imagePath = row.Cells[5].Value.ToString();
-
-                string imageData = row.Cells[7].Value.ToString();
-
-                if (imageData != null && imageData.Length > 0)
-                {
-
-                    student_image.Image = Image.FromFile(imageData);
-
-
-                }
-                else
-                {
-                    student_image.Image = null;
-                }
-
-                student_status.Text = row.Cells[8].Value.ToString();
-
-
-
-
-
-            }
+           
         }
 
         private void student_deleteBtn_Click(object sender, EventArgs e)
         {
-            if (student_id.Text == "")
+            if (studentGri.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Please select item first", "Error Message"
-                    , MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                DataGridViewRow selectedRow = studentGri.SelectedRows[0];
+                string studentID = selectedRow.Cells["student_id"].Value.ToString();
 
+                DialogResult confirmDelete = MessageBox.Show(
+                    $"Are you sure you want to delete the student with ID: {studentID}?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirmDelete == DialogResult.Yes)
+                {
+                    try
+                    {
+                       
+                        string deleteQuery = "DELETE FROM students WHERE student_id = @studentID";
+
+                        using (MySqlCommand cmd = new MySqlCommand(deleteQuery, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@studentID", studentID);
+                            cmd.ExecuteNonQuery();
+
+                            MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                         
+                            studentDisplayData();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting student: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
             else
             {
-                if (connect.State != ConnectionState.Open)
-                {
-                    DialogResult check = MessageBox.Show("Are you want to Delete Student ID: "
-                        + student_id.Text + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                MessageBox.Show("Please select a row to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-                    if (check == DialogResult.Yes)
-                    {
-                        try
-                        {
-                            connect.Open();
-                            DateTime today = DateTime.Today;
+        }
 
+        private void AddStudentForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["MyDatabase"].ConnectionString;
+                connection = new MySqlConnection(connectionString);
+                connection.Open();
 
-                            string deleteData = "UPDATE students SET date_delete = @dateDelete " +
-                                "WHERE student_id = @studentID";
-
-                            using (SqlCommand cmd = new SqlCommand(deleteData, connect))
-                            {
-                                cmd.Parameters.AddWithValue("@dateDelete", today.ToString());
-                                cmd.Parameters.AddWithValue("@studentID", student_id.Text.Trim());
-
-                                cmd.ExecuteNonQuery();
-
-                                displayStudentData();
-
-
-                                MessageBox.Show("Deleted Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                clearFields();
-
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error connecting Database: " + ex, "Error Message"
-                      , MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        finally
-                        {
-                            connect.Close();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Cancelled", "Information Message"
-                    , MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-
-                }
+                studentDisplayData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error connecting to the database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-      
+        private void studentDisplayData()
+        {
+            try
+            {
+               
+                string query = @"
+            SELECT 
+                id, 
+                student_id, 
+                student_name, 
+                student_gender, 
+                student_address, 
+                student_grade, 
+                student_section, 
+                student_status, 
+                IFNULL(date_insert, '') AS date_insert
+            FROM students
+            WHERE date_delete IS NULL;
+        ";
+
+                DataTable studentTable = new DataTable();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(studentTable);
+                    }
+                }
+
+               
+                studentGri.DataSource = studentTable;
+
+             
+                studentGri.Columns["id"].HeaderText = "ID";
+                studentGri.Columns["student_id"].HeaderText = "Student ID";
+                studentGri.Columns["student_name"].HeaderText = "Name";
+                studentGri.Columns["student_gender"].HeaderText = "Gender";
+                studentGri.Columns["student_address"].HeaderText = "Address";
+                studentGri.Columns["student_grade"].HeaderText = "Grade";
+                studentGri.Columns["student_section"].HeaderText = "Section";
+                studentGri.Columns["student_status"].HeaderText = "Status";
+                studentGri.Columns["date_insert"].HeaderText = "Inserted On";
+
+                
+                CustomizeStudentGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching student data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CustomizeStudentGridView()
+        {
+            studentGri.EnableHeadersVisualStyles = false;
+            studentGri.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(4, 87, 122);
+            studentGri.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            studentGri.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            studentGri.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            studentGri.DefaultCellStyle.BackColor = Color.White;
+            studentGri.DefaultCellStyle.ForeColor = Color.Black;
+            studentGri.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            studentGri.DefaultCellStyle.SelectionBackColor = Color.LightGray;
+            studentGri.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            studentGri.GridColor = Color.Gray;
+            studentGri.BorderStyle = BorderStyle.None;
+
+            studentGri.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            studentGri.RowHeadersVisible = false;
+            studentGri.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            studentGri.AllowUserToAddRows = false;
+        }
+
     }
 }

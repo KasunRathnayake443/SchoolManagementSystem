@@ -39,8 +39,9 @@ namespace SchoolManagementSystem
                     displayTotalES(connection);
                     displayTotalTT(connection);
                     displayTotalGS(connection);
+                    ShowTodayEnrolledStudents(connection);
 
-                    displayEntrolledStudentToday();
+
 
                 }
             }
@@ -125,14 +126,78 @@ namespace SchoolManagementSystem
 
         public void displayEntrolledStudentToday()
         {
-            AddStudentData asData = new AddStudentData();
-
-            dataGridView1.DataSource = asData.dashboardStudentData();
+            
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
+
+        private void ShowTodayEnrolledStudents(MySqlConnection connection)
+        {
+            try
+            {
+               
+                string query = @"
+            SELECT 
+                id, 
+                student_id, 
+                student_name, 
+                student_gender, 
+                student_address, 
+                student_grade, 
+                student_section, 
+                student_status, 
+                date_insert 
+            FROM students 
+            WHERE DATE(date_insert) = CURDATE();";
+
+                DataTable todayStudentsTable = new DataTable();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(todayStudentsTable);
+                    }
+                }
+
+                enrollTodayStudents.DataSource = todayStudentsTable;
+
+               
+                enrollTodayStudents.Columns["id"].HeaderText = "ID";
+                enrollTodayStudents.Columns["student_id"].HeaderText = "Student ID";
+                enrollTodayStudents.Columns["student_name"].HeaderText = "Name";
+                enrollTodayStudents.Columns["student_gender"].HeaderText = "Gender";
+                enrollTodayStudents.Columns["student_address"].HeaderText = "Address";
+                enrollTodayStudents.Columns["student_grade"].HeaderText = "Grade";
+                enrollTodayStudents.Columns["student_section"].HeaderText = "Section";
+                enrollTodayStudents.Columns["student_status"].HeaderText = "Status";
+                enrollTodayStudents.Columns["date_insert"].HeaderText = "Enrollment Date";
+
+                CustomizeEnrollTodayGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching today's enrolled students: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CustomizeEnrollTodayGridView()
+        {
+            enrollTodayStudents.EnableHeadersVisualStyles = false;
+            enrollTodayStudents.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(70, 130, 180);
+            enrollTodayStudents.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            enrollTodayStudents.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            enrollTodayStudents.DefaultCellStyle.SelectionBackColor = Color.LightGray;
+            enrollTodayStudents.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            enrollTodayStudents.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            enrollTodayStudents.RowHeadersVisible = false;
+            enrollTodayStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            enrollTodayStudents.AllowUserToAddRows = false;
+        }
+
     }
 }

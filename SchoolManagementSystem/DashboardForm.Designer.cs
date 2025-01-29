@@ -44,7 +44,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.enrollTodayStudents = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -53,7 +53,7 @@
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.enrollTodayStudents)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -197,7 +197,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.dataGridView1);
+            this.panel2.Controls.Add(this.enrollTodayStudents);
             this.panel2.Location = new System.Drawing.Point(16, 248);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(845, 310);
@@ -213,11 +213,11 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Entrolled Students Today";
             // 
-            // dataGridView1
+            // enrollTodayStudents
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            this.enrollTodayStudents.AllowUserToAddRows = false;
+            this.enrollTodayStudents.AllowUserToDeleteRows = false;
+            this.enrollTodayStudents.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(87)))), ((int)(((byte)(122)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -225,16 +225,16 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 47);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(820, 244);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.enrollTodayStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.enrollTodayStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.enrollTodayStudents.EnableHeadersVisualStyles = false;
+            this.enrollTodayStudents.Location = new System.Drawing.Point(12, 47);
+            this.enrollTodayStudents.Name = "enrollTodayStudents";
+            this.enrollTodayStudents.ReadOnly = true;
+            this.enrollTodayStudents.RowHeadersVisible = false;
+            this.enrollTodayStudents.Size = new System.Drawing.Size(820, 244);
+            this.enrollTodayStudents.TabIndex = 0;
+            this.enrollTodayStudents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // DashboardForm
             // 
@@ -258,7 +258,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.enrollTodayStudents)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -280,6 +280,6 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label total_GS;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView enrollTodayStudents;
     }
 }
