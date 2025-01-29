@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 29, 2025 at 08:51 AM
+-- Generation Time: Jan 29, 2025 at 05:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,8 +47,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `student_id`, `student_name`, `student_gender`, `student_address`, `student_grade`, `student_section`, `student_image`, `student_status`, `date_insert`, `date_update`, `date_delete`) VALUES
-(2, 'S002', 'Test 2', 'Male', 'Test 2', 'Grade 2', 'E', NULL, 'Pending', '2025-01-29', NULL, NULL),
-(3, 'S003', 'Test 3', 'Female', 'Test 3', 'Grade 4', 'B', NULL, 'Entrolled', '2025-01-29', NULL, NULL);
+(2, 'S002', 'Test 2', 'Male', 'Test 2', 'Grade 11', 'E', NULL, 'Pending', '2025-01-29', NULL, NULL),
+(3, 'S003', 'Test 3', 'Female', 'Test 3', 'Grade 4', 'B', NULL, 'Graduated', '2025-01-29', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -75,8 +75,8 @@ CREATE TABLE `teachers` (
 
 INSERT INTO `teachers` (`id`, `teacher_id`, `teacher_name`, `teacher_gender`, `teacher_address`, `teacher_image`, `teacher_status`, `date_insert`, `date_update`, `date_delete`) VALUES
 (1, 'T001', 'Test', 'Female', 'Test', NULL, 'Active', NULL, NULL, NULL),
-(2, 'T002', 'Test2', 'Male', 'Test 2', NULL, 'Active', '0000-00-00', NULL, NULL),
-(3, 'T003', 'Test 3', 'Male', 'Test 3', NULL, 'Inactive', '2024-12-22', NULL, NULL);
+(2, 'T002', 'Test2', 'Male', 'Test 2 changed', NULL, 'Active', '0000-00-00', NULL, NULL),
+(3, 'T003', 'Test 3', 'Others', 'Test 3', NULL, 'Active', '2024-12-22', NULL, NULL);
 
 -- --------------------------------------------------------
 

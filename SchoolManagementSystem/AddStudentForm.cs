@@ -142,9 +142,36 @@ namespace SchoolManagementSystem
 
         private void student_updateBtn_Click(object sender, EventArgs e)
         {
-           
+            if (studentGri.SelectedRows.Count > 0)
+            {
                 
-            
+                DataGridViewRow selectedRow = studentGri.SelectedRows[0];
+                String Id = selectedRow.Cells["id"].Value.ToString();
+                string studentId = selectedRow.Cells["student_id"].Value.ToString();
+                string studentName = selectedRow.Cells["student_name"].Value.ToString();
+                string studentGender = selectedRow.Cells["student_gender"].Value.ToString();
+                string studentAddress = selectedRow.Cells["student_address"].Value.ToString();
+                string studentGrade = selectedRow.Cells["student_grade"].Value.ToString();
+                string studentSection = selectedRow.Cells["student_section"].Value.ToString();
+                string studentStatus = selectedRow.Cells["student_status"].Value.ToString();
+
+               
+                updateStudent updateForm = new updateStudent(Id,
+                    studentId, studentName, studentGender,
+                    studentAddress, studentGrade, studentSection,
+                    studentStatus);
+
+                updateForm.ShowDialog();
+
+
+                studentDisplayData();
+            }
+            else
+            {
+                MessageBox.Show("Please select a student to update.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+
         }
 
         private void student_studentData_CellClick(object sender, DataGridViewCellEventArgs e)

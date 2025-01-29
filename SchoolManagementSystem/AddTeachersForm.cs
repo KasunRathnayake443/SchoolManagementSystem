@@ -242,9 +242,30 @@ namespace SchoolManagementSystem
 
         private void tteacher_updateBtn_Click(object sender, EventArgs e)
         {
+            if (teacherDataGrid.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = teacherDataGrid.SelectedRows[0];
 
-            
+                string id = selectedRow.Cells["id"].Value.ToString();
+                string teacherId = selectedRow.Cells["teacher_id"].Value.ToString();
+                string name = selectedRow.Cells["teacher_name"].Value.ToString();
+                string gender = selectedRow.Cells["teacher_gender"].Value.ToString();
+                string address = selectedRow.Cells["teacher_address"].Value.ToString();
+                string status = selectedRow.Cells["teacher_status"].Value.ToString();
+
+                
+                updateTeacher updateForm = new updateTeacher(id, teacherId, name, gender, address, status);
+                updateForm.ShowDialog();
+
+                
+                teacherDisplayData();
             }
+            else
+            {
+                MessageBox.Show("Please select a row to update.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+        }
 
         private void teacher_gridData_CellClick(object sender, DataGridViewCellEventArgs e)
         {

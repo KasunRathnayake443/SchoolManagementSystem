@@ -288,6 +288,7 @@
             // teacherDataGrid
             // 
             this.teacherDataGrid.AllowUserToResizeRows = false;
+            this.teacherDataGrid.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.teacherDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.teacherDataGrid.Location = new System.Drawing.Point(12, 43);
             this.teacherDataGrid.Name = "teacherDataGrid";
