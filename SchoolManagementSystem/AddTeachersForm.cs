@@ -36,6 +36,8 @@ namespace SchoolManagementSystem
                 connection.Open();
 
                 teacherDisplayData();
+                LoadTeacherIDsToSearchBox();
+
             }
             catch (Exception ex)
             {
@@ -43,6 +45,33 @@ namespace SchoolManagementSystem
             }
         }
 
+        private void LoadTeacherIDsToSearchBox()
+        {
+            try
+            {
+                string query = "SELECT teacher_id FROM teachers WHERE date_delete IS NULL;";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
+
+                while (reader.Read())
+                {
+                    autoComplete.Add(reader["teacher_id"].ToString());
+                }
+
+                reader.Close();
+
+                searchBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                searchBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                searchBox.AutoCompleteCustomSource = autoComplete;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load teacher IDs: " + ex.Message);
+            }
+        }
 
 
 
@@ -185,6 +214,8 @@ namespace SchoolManagementSystem
                                 cmd2.ExecuteNonQuery();
 
                                 teacherDisplayData();
+                                LoadTeacherIDsToSearchBox();
+
 
                                 MessageBox.Show("Teacher Added Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -315,6 +346,73 @@ namespace SchoolManagementSystem
         private void teacher_gridData_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void showAll_Click(object sender, EventArgs e)
+        {
+            teacherDisplayData();
+        }
+
+        private void searchBtn_Click(object sender, EventArgs e)
+        {
+            string teacherId = searchBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(teacherId))
+            {
+                MessageBox.Show("Please enter a teacher ID to search.");
+                return;
+            }
+
+            try
+            {
+                string query = @"
+        SELECT 
+            id, 
+            teacher_id, 
+            teacher_name, 
+            teacher_gender, 
+            teacher_address,  
+            teacher_status, 
+            IFNULL(date_insert, '') AS date_insert
+        FROM teachers
+        WHERE date_delete IS NULL AND teacher_id = @teacher_id;
+        ";
+
+                DataTable teacherTable = new DataTable();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@teacher_id", teacherId);
+
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(teacherTable);
+                    }
+                }
+
+                teacherDataGrid.DataSource = teacherTable;
+
+                if (teacherTable.Rows.Count > 0)
+                {
+                    teacherDataGrid.Columns["id"].HeaderText = "ID";
+                    teacherDataGrid.Columns["teacher_id"].HeaderText = "Teacher ID";
+                    teacherDataGrid.Columns["teacher_name"].HeaderText = "Name";
+                    teacherDataGrid.Columns["teacher_gender"].HeaderText = "Gender";
+                    teacherDataGrid.Columns["teacher_address"].HeaderText = "Address";
+                    teacherDataGrid.Columns["teacher_status"].HeaderText = "Status";
+                    teacherDataGrid.Columns["date_insert"].HeaderText = "Inserted On";
+                }
+                else
+                {
+                    MessageBox.Show("No teacher found with that ID.");
+                }
+
+                CustomizeDataGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error during search: " + ex.Message);
+            }
         }
     }
 }

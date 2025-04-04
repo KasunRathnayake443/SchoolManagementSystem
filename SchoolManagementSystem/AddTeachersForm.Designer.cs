@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddTeachersForm));
             this.panel2 = new System.Windows.Forms.Panel();
             this.teacher_status = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -49,6 +50,10 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.teacherDataGrid = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
+            this.showAll = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.searchBtn = new System.Windows.Forms.Button();
+            this.searchBox = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.teacher_image)).BeginInit();
@@ -278,6 +283,10 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.showAll);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.searchBtn);
+            this.panel1.Controls.Add(this.searchBox);
             this.panel1.Controls.Add(this.teacherDataGrid);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(33, 38);
@@ -304,6 +313,45 @@
             this.label1.Size = new System.Drawing.Size(112, 19);
             this.label1.TabIndex = 0;
             this.label1.Text = "Teacher\'s Data";
+            // 
+            // showAll
+            // 
+            this.showAll.Location = new System.Drawing.Point(745, 14);
+            this.showAll.Name = "showAll";
+            this.showAll.Size = new System.Drawing.Size(62, 23);
+            this.showAll.TabIndex = 9;
+            this.showAll.Text = "Show All";
+            this.showAll.UseVisualStyleBackColor = true;
+            this.showAll.Click += new System.EventHandler(this.showAll_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(464, 19);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(89, 13);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Enter Teacher ID";
+            // 
+            // searchBtn
+            // 
+            this.searchBtn.BackColor = System.Drawing.Color.AliceBlue;
+            this.searchBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("searchBtn.BackgroundImage")));
+            this.searchBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.searchBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.searchBtn.Location = new System.Drawing.Point(702, 10);
+            this.searchBtn.Name = "searchBtn";
+            this.searchBtn.Size = new System.Drawing.Size(32, 30);
+            this.searchBtn.TabIndex = 7;
+            this.searchBtn.UseVisualStyleBackColor = false;
+            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
+            // 
+            // searchBox
+            // 
+            this.searchBox.Location = new System.Drawing.Point(556, 16);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(140, 20);
+            this.searchBox.TabIndex = 6;
             // 
             // AddTeachersForm
             // 
@@ -348,5 +396,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox teacher_image;
         private System.Windows.Forms.DataGridView teacherDataGrid;
+        private System.Windows.Forms.Button showAll;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button searchBtn;
+        private System.Windows.Forms.TextBox searchBox;
     }
 }

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddStudentForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel2 = new System.Windows.Forms.Panel();
             this.student_status = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -53,11 +53,12 @@
             this.student_id = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.searchBtn = new System.Windows.Forms.Button();
+            this.searchBox = new System.Windows.Forms.TextBox();
             this.studentGri = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
+            this.showAll = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.student_image)).BeginInit();
@@ -345,15 +346,45 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.showAll);
             this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.searchBtn);
+            this.panel1.Controls.Add(this.searchBox);
             this.panel1.Controls.Add(this.studentGri);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(33, 38);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(822, 282);
             this.panel1.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(466, 16);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(86, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "Enter Student ID";
+            // 
+            // searchBtn
+            // 
+            this.searchBtn.BackColor = System.Drawing.Color.AliceBlue;
+            this.searchBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("searchBtn.BackgroundImage")));
+            this.searchBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.searchBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.searchBtn.Location = new System.Drawing.Point(704, 7);
+            this.searchBtn.Name = "searchBtn";
+            this.searchBtn.Size = new System.Drawing.Size(32, 30);
+            this.searchBtn.TabIndex = 3;
+            this.searchBtn.UseVisualStyleBackColor = false;
+            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
+            // 
+            // searchBox
+            // 
+            this.searchBox.Location = new System.Drawing.Point(558, 13);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(140, 20);
+            this.searchBox.TabIndex = 2;
             // 
             // studentGri
             // 
@@ -362,15 +393,15 @@
             this.studentGri.AllowUserToResizeColumns = false;
             this.studentGri.AllowUserToResizeRows = false;
             this.studentGri.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(87)))), ((int)(((byte)(122)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.studentGri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(87)))), ((int)(((byte)(122)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.studentGri.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.studentGri.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.studentGri.EnableHeadersVisualStyles = false;
             this.studentGri.Location = new System.Drawing.Point(3, 43);
@@ -391,33 +422,15 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Student\'s Data";
             // 
-            // textBox1
+            // showAll
             // 
-            this.textBox1.Location = new System.Drawing.Point(616, 10);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(140, 20);
-            this.textBox1.TabIndex = 2;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.AliceBlue;
-            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Location = new System.Drawing.Point(762, 4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(32, 30);
-            this.button1.TabIndex = 3;
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(524, 13);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(86, 13);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "Enter Student ID";
+            this.showAll.Location = new System.Drawing.Point(747, 11);
+            this.showAll.Name = "showAll";
+            this.showAll.Size = new System.Drawing.Size(62, 23);
+            this.showAll.TabIndex = 5;
+            this.showAll.Text = "Show All";
+            this.showAll.UseVisualStyleBackColor = true;
+            this.showAll.Click += new System.EventHandler(this.showAll_Click);
             // 
             // AddStudentForm
             // 
@@ -466,8 +479,9 @@
         private System.Windows.Forms.PictureBox student_image;
         private System.Windows.Forms.ComboBox student_status;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox searchBox;
+        private System.Windows.Forms.Button searchBtn;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button showAll;
     }
 }

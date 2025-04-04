@@ -97,6 +97,7 @@ namespace SchoolManagementSystem
                  
                     studentDisplayData();
                     clearFields();
+                    LoadStudentIDsToSearchBox();
                 }
             }
             catch (Exception ex)
@@ -232,11 +233,40 @@ namespace SchoolManagementSystem
                 connection = new MySqlConnection(connectionString);
                 connection.Open();
 
+                LoadStudentIDsToSearchBox();
                 studentDisplayData();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error connecting to the database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadStudentIDsToSearchBox()
+        {
+            try
+            {
+                string query = "SELECT student_id FROM students WHERE date_delete IS NULL;";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
+
+                while (reader.Read())
+                {
+                    autoComplete.Add(reader["student_id"].ToString());
+                }
+
+                reader.Close();
+
+                searchBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                searchBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                searchBox.AutoCompleteCustomSource = autoComplete;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load student IDs: " + ex.Message);
             }
         }
 
@@ -316,5 +346,76 @@ namespace SchoolManagementSystem
             studentGri.AllowUserToAddRows = false;
         }
 
+        private void searchBtn_Click(object sender, EventArgs e)
+        {
+            string studentId = searchBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(studentId))
+            {
+                MessageBox.Show("Please enter a student ID to search.");
+                return;
+            }
+
+            try
+            {
+                string query = @"
+        SELECT 
+            id, 
+            student_id, 
+            student_name, 
+            student_gender, 
+            student_address, 
+            student_grade, 
+            student_section, 
+            student_status, 
+            IFNULL(date_insert, '') AS date_insert
+        FROM students
+        WHERE date_delete IS NULL AND student_id = @student_id;
+        ";
+
+                DataTable studentTable = new DataTable();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@student_id", studentId);
+
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(studentTable);
+                    }
+                }
+
+                studentGri.DataSource = studentTable;
+
+                
+                if (studentTable.Rows.Count > 0)
+                {
+                    studentGri.Columns["id"].HeaderText = "ID";
+                    studentGri.Columns["student_id"].HeaderText = "Student ID";
+                    studentGri.Columns["student_name"].HeaderText = "Name";
+                    studentGri.Columns["student_gender"].HeaderText = "Gender";
+                    studentGri.Columns["student_address"].HeaderText = "Address";
+                    studentGri.Columns["student_grade"].HeaderText = "Grade";
+                    studentGri.Columns["student_section"].HeaderText = "Section";
+                    studentGri.Columns["student_status"].HeaderText = "Status";
+                    studentGri.Columns["date_insert"].HeaderText = "Inserted On";
+                }
+                else
+                {
+                    MessageBox.Show("No student found with that ID.");
+                }
+
+                CustomizeStudentGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error during search: " + ex.Message);
+            }
+        }
+
+        private void showAll_Click(object sender, EventArgs e)
+        {
+            studentDisplayData();
+        }
     }
 }
